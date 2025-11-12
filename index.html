@@ -38,7 +38,8 @@
             height: 140px;
             border-radius: 50%;
             margin: 0 auto 40px;
-            background-image: url('https://raw.githubusercontent.com/iraniroahn/roahn-portfolio/main/IMG_0370.jpeg');            background-position: center;
+            background-image: url('https://raw.githubusercontent.com/iraniroahn/roahn-portfolio/main/IMG_0370.jpeg');
+            background-position: center;
             background-size: 80%;
             display: flex;
             align-items: center;
@@ -79,6 +80,9 @@
         }
 
         .contact-item {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;              /* space between icon and text */
             color: #5d6d7e;
             text-decoration: none;
             font-size: 0.95rem;
@@ -88,6 +92,18 @@
 
         .contact-item:hover {
             color: #2c3e50;
+        }
+
+        .icon {
+            font-size: 1.2rem;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .label {
+            display: inline-block;
+            line-height: 1;
         }
 
         .section {
@@ -263,6 +279,14 @@
             border: none;
         }
 
+        .education-item p {
+            margin-bottom: 10px; /* adds vertical space between lines */
+        }
+
+        .education-item p:first-of-type {
+            margin-bottom: 16px; /* extra spacing below CGPA */
+        }
+
         .fade-in {
             opacity: 0;
             transform: translateY(20px);
@@ -303,14 +327,20 @@
             <div class="profile-photo" id="profilePhoto"></div>
             <h1 class="name">Rohan Irani</h1>
             <p class="tagline">Cybersecurity Student & Application Security Specialist</p>
+
+            <!-- Updated contact info with icon + text -->
+            <div class="contact-info">
                 <a href="mailto:rohanirani2003@gmail.com" class="contact-item">
-                    ✉️ rohanirani2003@gmail.com
+                    <span class="icon">📧</span>
+                    <span class="label">rohanirani2003@gmail.com</span>
                 </a>
-                <a href="https://www.linkedin.com/in/rohan-irani-5512a21a5/" class="contact-item" target="_blank">
-                    💼 LinkedIn
+                <a href="https://www.linkedin.com/in/rohan-irani-5512a21a5/" class="contact-item" target="_blank" rel="noopener">
+                    <span class="icon">💼</span>
+                    <span class="label">LinkedIn</span>
                 </a>
-                <a href="https://github.com/iraniroahn" class="contact-item" target="_blank">
-                    💻 GitHub
+                <a href="https://github.com/iraniroahn" class="contact-item" target="_blank" rel="noopener">
+                    <span class="icon">💻</span>
+                    <span class="label">GitHub</span>
                 </a>
             </div>
         </header>
@@ -411,6 +441,9 @@
                         <span class="skill-tag">JavaScript</span>
                         <span class="skill-tag">Linux</span>
                     </div>
+                </div>
+            </div>
+        </section>
 
         <section class="section fade-in">
             <h2 class="section-title">Education</h2>
