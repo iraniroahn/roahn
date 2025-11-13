@@ -326,7 +326,7 @@
         <header class="header fade-in">
             <div class="profile-photo" id="profilePhoto"></div>
             <h1 class="name">Rohan Irani</h1>
-            <p class="tagline">Cybersecurity Student & Application Security Specialist</p>
+            <p class="tagline" id="typewriter"></p>
 
             <!-- Updated contact info with icon + text -->
             <div class="contact-info">
@@ -466,6 +466,24 @@
             <div class="company">Christ Church High School</div>
     <p style="color: #5d6d7e; font-size: 0.95rem;"><strong style="color: #2c3e50;">ICSE Board Exam - 87%</strong></p>
 </div>
+    <script>
+        // Typewriter effect for tagline
+        document.addEventListener("DOMContentLoaded", function() {
+            const element = document.getElementById("typewriter");
+            const text = "University of Melbourne MIS '28";
+            let index = 0;
+
+            function type() {
+                if (index < text.length) {
+                    element.textContent += text.charAt(index);
+                    index++;
+                    setTimeout(type, 80);
+                }
+            }
+
+            type();
+        });
+    </script>
     <script>
         // Fade-in animation on scroll
         function animateOnScroll() {
