@@ -442,7 +442,6 @@
                     <span class="label">GitHub</span>
                 </a>
             </div>
-            <button id="darkModeToggle" style="margin-top:20px; font-size:0.9rem; padding:6px 14px; border:1px solid #ccc; background:#fafafa; cursor:pointer; border-radius:6px;">🌓 Toggle Dark Mode</button>
         </header>
 
         <section class="section fade-in">
@@ -587,20 +586,6 @@
                 </div>
             </div>
 
-    <script>
-    // Dark mode toggle (single, cleaned instance)
-    document.addEventListener("DOMContentLoaded", () => {
-        const toggle = document.getElementById("darkModeToggle");
-        if (!toggle) return;
-        const saved = localStorage.getItem("darkMode");
-        if (saved === "true") document.body.classList.add("dark");
-
-        toggle.addEventListener("click", () => {
-            document.body.classList.toggle("dark");
-            localStorage.setItem("darkMode", document.body.classList.contains("dark"));
-        });
-    });
-    </script>
 
     <script>
     // Typewriter effect for tagline (single instance)
@@ -683,15 +668,16 @@
             document.querySelectorAll('.experience-item, .project-item').forEach((el) => observer.observe(el));
         });
     </script>
+    <!-- Subtle back-to-top button (light theme) -->
+    <button id="backToTop" aria-label="Back to top" style="position:fixed; bottom:24px; right:20px; padding:8px 10px; font-size:14px; border-radius:10px; border:1px solid rgba(0,0,0,0.08); background: rgba(255,255,255,0.95); color:#34495e; cursor:pointer; display:none; box-shadow: 0 6px 18px rgba(20,30,40,0.04);">↑</button>
+    <script>
+    document.addEventListener("scroll", () => {
+        const btn = document.getElementById("backToTop");
+        btn.style.display = window.scrollY > 300 ? "block" : "none";
+    });
+    document.getElementById("backToTop").addEventListener("click", () => {
+        window.scrollTo({ top:0, behavior:"smooth" });
+    });
+    </script>
 </body>
-<button id="backToTop" style="position:fixed; bottom:28px; right:28px; padding:12px 16px; font-size:18px; border-radius:50%; border:none; background:#34495e; color:white; cursor:pointer; display:none;">↑</button>
-<script>
-document.addEventListener("scroll", () => {
-    const btn = document.getElementById("backToTop");
-    btn.style.display = window.scrollY > 300 ? "block" : "none";
-});
-document.getElementById("backToTop").addEventListener("click", () => {
-    window.scrollTo({ top:0, behavior:"smooth" });
-});
-</script>
 </html>
