@@ -4,9 +4,22 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rohan Irani</title>
-    <link rel="icon" href="./fevicon.png" sizes="32x32">
-    <link rel="apple-touch-icon" href="./fevicon.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="./favicon-16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="./favicon-32.png">
+    <link rel="shortcut icon" href="./favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="./fevicon.png">
     <style>
+        /* Dark mode theme */
+        body.dark {
+            background: #111;
+            color: #e6e6e6;
+        }
+        body.dark .container { background:#111; }
+        body.dark .section-title:after { background:#e6e6e6; }
+        body.dark .skill-tag { color:#ddd; }
+        body.dark .skill-tag:hover { background:#333; }
+        body.dark .contact-item { color:#ccc; }
+        body.dark .contact-item:hover { color:#fff; }
         * {
             margin: 0;
             padding: 0;
@@ -429,6 +442,7 @@
                     <span class="label">GitHub</span>
                 </a>
             </div>
+            <button id="darkModeToggle" style="margin-top:20px; font-size:0.9rem; padding:6px 14px; border:1px solid #ccc; background:#fafafa; cursor:pointer; border-radius:6px;">🌓 Toggle Dark Mode</button>
         </header>
 
         <section class="section fade-in">
@@ -439,7 +453,7 @@
                     <div>
                         <div class="job-title">Automation and Research Specialist - Editorial Intern</div>
                         <div class="company-header">
-                            <img src="./autocar-india.png" alt="Autocar India Logo" class="company-logo">
+                            <img loading="lazy" src="./autocar-india.png" alt="Autocar India Logo" class="company-logo">
                             <div class="company">Autocar India</div>
                         </div>
                     </div>
@@ -457,7 +471,7 @@
                     <div>
                         <div class="job-title">Application Security Testing & Vulnerability Assessment - Intern</div>
                         <div class="company-header">
-                            <img src="https://raw.githubusercontent.com/iraniroahn/roahn-portfolio/main/Disney_Star_logo.png" alt="Disney Star Logo" class="company-logo">
+                            <img loading="lazy" src="https://raw.githubusercontent.com/iraniroahn/roahn-portfolio/main/Disney_Star_logo.png" alt="Disney Star Logo" class="company-logo">
                             <div class="company">Disney Star (The Walt Disney Company)</div>
                         </div>
                     </div>
@@ -476,7 +490,7 @@
         <div>
             <div class="job-title">Freelance Prompt Engineer</div>
             <div class="company-header">
-                <img src="https://raw.githubusercontent.com/iraniroahn/roahn-portfolio/main/outlier.png" alt="Outliter.ai Logo" class="company-logo">
+                <img loading="lazy" src="https://raw.githubusercontent.com/iraniroahn/roahn-portfolio/main/outlier.png" alt="Outliter.ai Logo" class="company-logo">
                 <div class="company">Outliter.Ai</div>
             </div>
         </div>
@@ -495,7 +509,7 @@
         <div>
             <div class="job-title">Service & Quality Assurance - Intern</div>
             <div class="company-header">
-                <img src="https://raw.githubusercontent.com/iraniroahn/roahn-portfolio/main/LTI_Lets_solve.png" alt="LTI Mindtree Logo" class="company-logo">
+                <img loading="lazy" src="https://raw.githubusercontent.com/iraniroahn/roahn-portfolio/main/LTI_Lets_solve.png" alt="LTI Mindtree Logo" class="company-logo">
                 <div class="company">Larsen & Toubro Infotech Mindtree</div>
             </div>
         </div>
@@ -519,7 +533,7 @@
 
             <div class="project-item">
                 <div class="job-title">CAN Bus Security Analysis</div>
-                <p style="color: #34495e; font-size: 0.95rem; line-height: 1.6; margin-top: 12px;">Comprehensive <span class="highlight">automotive cybersecurity research</span> project that simulated and analysed vulnerabilities in the <span class="highlight">Controller Area Network Bus</span> used in modern vehicles. Demonstrated <span class="highlight">DoS and replay attacks</span> on a virtual CAN environment and implemented custom tools to <span class="highlight">monitor and manipulate CAN traffic</span>.</p>
+                <p style="color: #34495e; font-size: 0.95rem; line-height: 1.6; margin-top: 12px;">Comprehensive <span class="highlight">automotive cybersecurity research</span> project that simulated and analysed vulnerabilities in the <span class="highlight" title="CAN Bus is the communication backbone for vehicle ECUs.">Controller Area Network Bus</span> used in modern vehicles. Demonstrated <span class="highlight">DoS and replay attacks</span> on a virtual CAN environment and implemented custom tools to <span class="highlight">monitor and manipulate CAN traffic</span>.</p>
             </div>
         </section>
 
@@ -564,31 +578,48 @@
             </div>
 
             <div class="education-item">
-    <div class="job-header">
-        <div>
-            <div class="job-title">I.C.S.E</div>
-            <div class="company">Christ Church High School</div>
-    <p style="color: #5d6d7e; font-size: 0.95rem;"><strong style="color: #2c3e50;">ICSE Board Exam - 87%</strong></p>
-</div>
+                <div class="job-header">
+                    <div>
+                        <div class="job-title">I.C.S.E</div>
+                        <div class="company">Christ Church High School</div>
+                        <p style="color: #5d6d7e; font-size: 0.95rem;"><strong style="color: #2c3e50;">ICSE Board Exam - 87%</strong></p>
+                    </div>
+                </div>
+            </div>
+
     <script>
-        // Typewriter effect for tagline
-        document.addEventListener("DOMContentLoaded", function() {
-            const element = document.getElementById("typewriter");
-            const text = "University of Melbourne MIS '28";
-            let index = 0;
+    // Dark mode toggle (single, cleaned instance)
+    document.addEventListener("DOMContentLoaded", () => {
+        const toggle = document.getElementById("darkModeToggle");
+        if (!toggle) return;
+        const saved = localStorage.getItem("darkMode");
+        if (saved === "true") document.body.classList.add("dark");
 
-            function type() {
-                if (index < text.length) {
-                    element.textContent += text.charAt(index);
-                    index++;
-                    setTimeout(type, 80);
-                }
-            }
-
-            type();
+        toggle.addEventListener("click", () => {
+            document.body.classList.toggle("dark");
+            localStorage.setItem("darkMode", document.body.classList.contains("dark"));
         });
+    });
     </script>
-</div>
+
+    <script>
+    // Typewriter effect for tagline (single instance)
+    document.addEventListener("DOMContentLoaded", function() {
+        const element = document.getElementById("typewriter");
+        const text = "University of Melbourne MIS '28";
+        let index = 0;
+
+        function type() {
+            if (index < text.length) {
+                element.textContent += text.charAt(index);
+                index++;
+                setTimeout(type, 80);
+            }
+        }
+
+        type();
+    });
+    </script>
     <script>
         // Fade-in animation on scroll
         function animateOnScroll() {
@@ -653,4 +684,14 @@
         });
     </script>
 </body>
+<button id="backToTop" style="position:fixed; bottom:28px; right:28px; padding:12px 16px; font-size:18px; border-radius:50%; border:none; background:#34495e; color:white; cursor:pointer; display:none;">↑</button>
+<script>
+document.addEventListener("scroll", () => {
+    const btn = document.getElementById("backToTop");
+    btn.style.display = window.scrollY > 300 ? "block" : "none";
+});
+document.getElementById("backToTop").addEventListener("click", () => {
+    window.scrollTo({ top:0, behavior:"smooth" });
+});
+</script>
 </html>
