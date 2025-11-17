@@ -321,6 +321,90 @@
                 gap: 5px;
             }
         }
+
+        /* --- Additional animations & micro-interactions --- */
+
+        /* Profile photo hover: subtle scale and shadow */
+        .profile-photo {
+            transition: transform 240ms ease, box-shadow 240ms ease, border-color 240ms ease;
+            will-change: transform;
+        }
+        .profile-photo:hover {
+            transform: scale(1.04);
+            box-shadow: 0 10px 30px rgba(30,40,50,0.08);
+            border-color: #2c3e50;
+        }
+
+        /* Experience card lift */
+        .experience-item {
+            transition: transform 220ms ease, box-shadow 220ms ease;
+            will-change: transform;
+        }
+        .experience-item:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 14px 30px rgba(20,30,40,0.05);
+        }
+
+        /* Logo gentle pop on reveal */
+        .company-logo {
+            transform-origin: center;
+            transform: scale(0.95);
+            opacity: 0;
+            transition: transform 360ms cubic-bezier(.2,.9,.2,1), opacity 360ms ease;
+        }
+        .fade-in.visible .company-logo {
+            transform: scale(1);
+            opacity: 1;
+        }
+
+        /* Skill tag micro-interaction */
+        .skill-tag {
+            display: inline-block;
+            transition: transform 180ms ease, color 180ms ease, background 180ms ease;
+            padding: 6px 2px;
+            border-radius: 6px;
+        }
+        .skill-tag:hover {
+            transform: translateY(-3px);
+            color: #1a252f;
+            background: rgba(52,73,94,0.06);
+        }
+
+        /* Contact underline slide */
+        .contact-item {
+            position: relative;
+            text-decoration: none;
+        }
+        .contact-item::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -4px;
+            height: 2px;
+            width: 0;
+            background: #34495e;
+            transition: width 220ms cubic-bezier(.2,.9,.2,1);
+        }
+        .contact-item:hover::after { width: 100%; }
+
+        /* Typewriter blinking cursor */
+        #typewriter { display: inline-block; }
+        #typewriter::after {
+            content: '|';
+            margin-left: 6px;
+            opacity: 1;
+            animation: blink 1s steps(2, start) infinite;
+        }
+        @keyframes blink { 50% { opacity: 0; } }
+
+        /* Prepare achievements for staggered reveal */
+        .achievements li { opacity: 0; transform: translateY(12px); }
+
+        /* Respect users preferring reduced motion */
+        @media (prefers-reduced-motion: reduce) {
+            * { transition: none !important; animation: none !important; }
+        }
+
     </style>
 </head>
 <body>
@@ -504,6 +588,7 @@
             type();
         });
     </script>
+</div>
     <script>
         // Fade-in animation on scroll
         function animateOnScroll() {
@@ -524,6 +609,47 @@
         // Initialize the website
         document.addEventListener('DOMContentLoaded', () => {
             animateOnScroll();
+        });
+    </script>
+    <script>
+        // Staggered reveal for achievement list items and small JS helpers
+        document.addEventListener('DOMContentLoaded', () => {
+            // Prepare list items (already set in CSS but ensure inline styles don't interfere)
+            document.querySelectorAll('.achievements').forEach((ul) => {
+                ul.querySelectorAll('li').forEach((li) => {
+                    li.style.opacity = '0';
+                    li.style.transform = 'translateY(12px)';
+                });
+            });
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const el = entry.target;
+
+                        // Add visible class for existing CSS rules
+                        el.classList.add('visible');
+
+                        // Stagger children if this element has achievements
+                        const children = el.querySelectorAll('.achievements li');
+                        if (children.length) {
+                            children.forEach((child, i) => {
+                                child.style.transition = `opacity 420ms ease ${i * 120}ms, transform 420ms cubic-bezier(.2,.9,.2,1) ${i * 120}ms`;
+                                // Force a reflow so transition applies
+                                void child.offsetWidth;
+                                child.style.opacity = '1';
+                                child.style.transform = 'translateY(0)';
+                            });
+                        }
+
+                        // Unobserve once animated
+                        observer.unobserve(el);
+                    }
+                });
+            }, { threshold: 0.12 });
+
+            // Observe each experience-item and project-item (same behavior)
+            document.querySelectorAll('.experience-item, .project-item').forEach((el) => observer.observe(el));
         });
     </script>
 </body>
