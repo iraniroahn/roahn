@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", function () {
     // Typewriter effect
     const element = document.getElementById("typewriter");
-    const text = "University of Melbourne MIS '28";
+    const text = "Incoming Student University of Melbourne MIS '28";
     let index = 0;
 
     function type() {
