@@ -75,31 +75,5 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
-    // Dark Mode Toggle
-    const themeToggle = document.getElementById('themeToggle');
-    const body = document.body;
 
-    // Check for saved user preference, if any, on load of the website
-    const currentTheme = localStorage.getItem('theme');
-    if (currentTheme) {
-        body.classList.add(currentTheme);
-        if (currentTheme === 'dark') {
-            themeToggle.textContent = '☀️';
-        }
-    } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-        body.classList.add('dark');
-        themeToggle.textContent = '☀️';
-    }
-
-    themeToggle.addEventListener('click', function () {
-        body.classList.toggle('dark');
-        let theme = 'light';
-        if (body.classList.contains('dark')) {
-            theme = 'dark';
-            themeToggle.textContent = '☀️';
-        } else {
-            themeToggle.textContent = '🌙';
-        }
-        localStorage.setItem('theme', theme);
-    });
 });
