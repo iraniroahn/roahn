@@ -1,3 +1,8 @@
+:root {
+    --accent: #1a5f7a;
+    --accent-soft: rgba(26, 95, 122, 0.08);
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -33,9 +38,9 @@ body {
     height: 140px;
     border-radius: 50%;
     margin: 0 auto 40px;
-    background-image: url('https://raw.githubusercontent.com/iraniroahn/roahn-portfolio/main/IMG_0370.jpeg');
+    background-image: url('./profile.jpg');
     background-position: center;
-    background-size: 80%;
+    background-size: cover;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -47,7 +52,7 @@ body {
 }
 
 .profile-photo:hover {
-    border-color: #34495e;
+    border-color: var(--accent);
 }
 
 .name {
@@ -87,14 +92,18 @@ body {
 }
 
 .contact-item:hover {
-    color: #2c3e50;
+    color: var(--accent);
 }
 
 .icon {
-    font-size: 1.2rem;
     display: inline-flex;
     align-items: center;
     justify-content: center;
+}
+
+.icon svg {
+    width: 18px;
+    height: 18px;
 }
 
 .label {
@@ -125,7 +134,7 @@ body {
     left: 0;
     width: 60px;
     height: 2px;
-    background: #34495e;
+    background: var(--accent);
 }
 
 .experience-item,
@@ -214,7 +223,7 @@ body {
 }
 
 .highlight {
-    background: rgba(52, 73, 94, 0.08);
+    background: var(--accent-soft);
     padding: 2px 6px;
     border-radius: 3px;
     font-weight: 500;
@@ -269,13 +278,14 @@ body {
 }
 
 .skill-tag:hover {
-    color: #2c3e50;
+    color: var(--accent);
 }
 
 .education-item {
     background: transparent;
     padding: 0;
     border: none;
+    margin-bottom: 30px;
 }
 
 .education-item p {
@@ -332,7 +342,7 @@ body {
 .profile-photo:hover {
     transform: scale(1.04);
     box-shadow: 0 10px 30px rgba(30, 40, 50, 0.08);
-    border-color: #2c3e50;
+    border-color: var(--accent);
 }
 
 /* Experience card lift */
@@ -369,8 +379,8 @@ body {
 
 .skill-tag:hover {
     transform: translateY(-3px);
-    color: #1a252f;
-    background: rgba(52, 73, 94, 0.06);
+    color: var(--accent);
+    background: var(--accent-soft);
 }
 
 /* Contact underline slide */
@@ -386,7 +396,7 @@ body {
     bottom: -4px;
     height: 2px;
     width: 0;
-    background: #34495e;
+    background: var(--accent);
     transition: width 220ms cubic-bezier(.2, .9, .2, 1);
 }
 
@@ -402,6 +412,7 @@ body {
 #typewriter::after {
     content: '|';
     margin-left: 6px;
+    color: var(--accent);
     opacity: 1;
     animation: blink 1s steps(2, start) infinite;
 }
