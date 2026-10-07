@@ -1,79 +1,107 @@
 document.addEventListener("DOMContentLoaded", function () {
-    // Typewriter effect
-    const element = document.getElementById("typewriter");
-    const text = "Student at the University of Melbourne MIS '28";
-    let index = 0;
+    const root = document.documentElement;
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const darkQuery = window.matchMedia("(prefers-color-scheme: dark)");
 
-    function type() {
-        if (index < text.length) {
-            element.textContent += text.charAt(index);
-            index++;
-            setTimeout(type, 80);
-        }
+    // Theme toggle: an explicit choice is saved, otherwise follow the system setting
+    const themeToggle = document.getElementById("themeToggle");
+
+    function currentTheme() {
+        return root.getAttribute("data-theme") || (darkQuery.matches ? "dark" : "light");
     }
 
-    type();
+    function updateToggleLabel() {
+        const next = currentTheme() === "dark" ? "light" : "dark";
+        themeToggle.setAttribute("aria-label", "Switch to " + next + " theme");
+    }
 
-    // Fade-in animation on scroll
-    const fadeElements = document.querySelectorAll('.fade-in');
-    const fadeObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('visible');
+    if (themeToggle) {
+        updateToggleLabel();
+        themeToggle.addEventListener("click", () => {
+            const next = currentTheme() === "dark" ? "light" : "dark";
+            root.setAttribute("data-theme", next);
+            try {
+                localStorage.setItem("theme", next);
+            } catch (e) { }
+            updateToggleLabel();
+        });
+        darkQuery.addEventListener("change", updateToggleLabel);
+    }
+
+    // Typewriter effect (the full text stays available to screen readers)
+    const element = document.getElementById("typewriter");
+    if (element && !reduceMotion) {
+        const text = element.textContent.trim().replace(/\s+/g, " ");
+        const srCopy = document.createElement("span");
+        srCopy.className = "sr-only";
+        srCopy.textContent = text;
+        element.parentNode.insertBefore(srCopy, element);
+        element.setAttribute("aria-hidden", "true");
+        element.textContent = "";
+        element.classList.add("typing");
+
+        let index = 0;
+        (function type() {
+            if (index < text.length) {
+                element.textContent += text.charAt(index);
+                index++;
+                setTimeout(type, 55);
+            } else {
+                setTimeout(() => element.classList.remove("typing"), 2500);
             }
-        });
-    });
+        })();
+    }
 
-    fadeElements.forEach(element => {
-        fadeObserver.observe(element);
-    });
-
-    // Staggered reveal for achievement list items
-    document.querySelectorAll('.achievements').forEach((ul) => {
-        ul.querySelectorAll('li').forEach((li) => {
-            li.style.opacity = '0';
-            li.style.transform = 'translateY(12px)';
-        });
-    });
-
-    const staggerObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                const el = entry.target;
-
-                // Add visible class for existing CSS rules
-                el.classList.add('visible');
-
-                // Stagger children if this element has achievements
-                const children = el.querySelectorAll('.achievements li');
-                if (children.length) {
-                    children.forEach((child, i) => {
-                        child.style.transition = `opacity 420ms ease ${i * 120}ms, transform 420ms cubic-bezier(.2,.9,.2,1) ${i * 120}ms`;
-                        // Force a reflow so transition applies
-                        void child.offsetWidth;
-                        child.style.opacity = '1';
-                        child.style.transform = 'translateY(0)';
-                    });
+    // Fade-in sections on scroll
+    const fadeElements = document.querySelectorAll(".fade-in");
+    if ("IntersectionObserver" in window) {
+        const fadeObserver = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add("visible");
+                    fadeObserver.unobserve(entry.target);
                 }
+            });
+        }, { threshold: 0.08 });
+        fadeElements.forEach((el) => fadeObserver.observe(el));
+    } else {
+        fadeElements.forEach((el) => el.classList.add("visible"));
+    }
 
-                // Unobserve once animated
-                staggerObserver.unobserve(el);
-            }
+    // Highlight the nav link for the section in view
+    const navLinks = document.querySelectorAll(".nav-links a");
+    const sections = Array.from(navLinks)
+        .map((link) => document.querySelector(link.getAttribute("href")))
+        .filter(Boolean);
+
+    function setActiveLink() {
+        const offset = window.innerHeight * 0.35;
+        let activeId = null;
+        sections.forEach((section) => {
+            if (section.getBoundingClientRect().top - offset <= 0) activeId = section.id;
         });
-    }, { threshold: 0.12 });
-
-    document.querySelectorAll('.experience-item, .project-item').forEach((el) => staggerObserver.observe(el));
+        navLinks.forEach((link) => {
+            link.classList.toggle("active", link.getAttribute("href") === "#" + activeId);
+        });
+    }
 
     // Back to top button
     const backToTopBtn = document.getElementById("backToTop");
     if (backToTopBtn) {
-        document.addEventListener("scroll", () => {
-            backToTopBtn.style.display = window.scrollY > 300 ? "block" : "none";
-        });
         backToTopBtn.addEventListener("click", () => {
-            window.scrollTo({ top: 0, behavior: "smooth" });
+            window.scrollTo({ top: 0, behavior: reduceMotion ? "auto" : "smooth" });
         });
     }
 
+    function onScroll() {
+        setActiveLink();
+        if (backToTopBtn) backToTopBtn.classList.toggle("show", window.scrollY > 600);
+    }
 
+    document.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
+
+    // Footer year
+    const year = document.getElementById("year");
+    if (year) year.textContent = new Date().getFullYear();
 });
